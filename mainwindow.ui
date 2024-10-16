@@ -549,7 +549,7 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
        <item>
         <widget class="QLabel" name="userNameLabel">
          <property name="text">
-          <string>账号:AleSmart</string>
+          <string>账号：AleSmart</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
