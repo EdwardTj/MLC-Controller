@@ -4,9 +4,14 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow),runTimer(new QTimer(this))
+    , ui(new Ui::MainWindow),runTimer(new QTimer(this)), isPressed(false)
 {
     ui->setupUi(this);
+    // 连接QListWidget的itemClicked信号到自定义槽函数
+      connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
+
+
+
   // 记录开始时间
     // 启动经过时间计时器
     elapsedTimer.start(); // 开始计时
@@ -64,16 +69,14 @@ void MainWindow::on_openFolder_triggered()
     QFileDialog dialog(nullptr, "请选择Dicom文件", QDir::homePath(), "DCM Files (*.dcm)");
     dialog.setFileMode(QFileDialog::ExistingFiles); // 允许选择多个文件
     dialog.setNameFilter("DCM Files (*.dcm)"); // 设置过滤器以仅显示.dcm文件
-
+    //判断是否取消了界面
     if (dialog.exec() != QDialog::Accepted)
     {
         // 用户取消了文件选择
         return;
     }
-
     QStringList filepaths = dialog.selectedFiles(); // 获取用户选择的文件路径列表
-
-// 清空QListWidget中的现有项（如果有的话）
+    // 清空QListWidget中的现有项（如果有的话）
     ui->listWidget->clear();
     // 遍历文件路径列表并输出文件名
     for (const QString &filepath : filepaths)
@@ -118,5 +121,33 @@ void MainWindow::updateRunTime()
                               .arg(minutes, 2, 10, QChar('0'))
                               .arg(seconds, 2, 10, QChar('0'));
     ui->runtime->setText(runTimeText); // 假设您的QLabel对象名称为labelRunTime
+}
+
+//触发信号
+void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
+{
+    qDebug() << "Slot entered";
+    qDebug() << item->text();
+    qDebug() << "Slot exited";
+}
+
+
+
+//解决按压触发两次updateRunTime信号槽的Bug
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    isPressed = true;  // 按下时设置为true
+    QMainWindow::mousePressEvent(event);  // 调用基类处理
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (isPressed)  // 只有按下时才触发释放事件
+    {
+        isPressed = false;  // 释放时重置标志
+        // 处理release后的逻辑
+        // 在这里可以发射itemClicked信号或者执行自定义逻辑
+    }
+    QMainWindow::mouseReleaseEvent(event);  // 调用基类处理
 }
 

@@ -9,6 +9,9 @@
 #include "QTimer"
 #include "QVBoxLayout"
 #include <QElapsedTimer>
+#include <QListWidget>
+#include <QListWidgetItem>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +27,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
 private slots:
     //打开文件
     void on_openFile_triggered();
@@ -34,9 +41,12 @@ private slots:
     //获取更新时间
     void updateRunTime();
 
+    void on_listWidget_itemClicked(QListWidgetItem *item);
+
 private:
     Ui::MainWindow *ui;
     QTimer *runTimer;
     QElapsedTimer elapsedTimer; // 使用QElapsedTimer而不是QTime
+    bool isPressed;  // 用于标记按键状态
 };
 #endif // MAINWINDOW_H
