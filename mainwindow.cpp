@@ -4,16 +4,30 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow),runTimer(new QTimer(this))
 {
     ui->setupUi(this);
+  // 记录开始时间
+    // 启动经过时间计时器
+    elapsedTimer.start(); // 开始计时
+
+    // 连接计时器的timeout信号到槽函数
+    connect(runTimer, &QTimer::timeout, this, &MainWindow::updateRunTime);
+
+    // 启动计时器，例如每秒更新一次
+    runTimer->start(1000);
+    // 立即调用一次updateRunTime以显示初始时间（可选）
+    updateRunTime();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete runTimer; // 删除计时器对象
 }
 
+
+//打开文件
 void MainWindow::on_openFile_triggered()
 {
     QFileDialog dialog(nullptr, "请选择Dicom文件", QDir::homePath(), "DCM Files (*.dcm)");
@@ -43,7 +57,7 @@ void MainWindow::on_openFile_triggered()
 }
 
 
-
+//打开文件夹，多选文件
 
 void MainWindow::on_openFolder_triggered()
 {
@@ -81,5 +95,23 @@ void MainWindow::on_openFolder_triggered()
 void MainWindow::on_clickExit_triggered()
 {
     this->close();
+}
+
+//获取时间显示
+void MainWindow::updateRunTime()
+{
+    // 获取自elapsedTimer启动以来的毫秒数
+    qint64 elapsedMilliseconds = elapsedTimer.elapsed();
+
+    // 计算小时、分钟和秒
+    int hours = elapsedMilliseconds / 3600000;
+    int minutes = (elapsedMilliseconds % 3600000) / 60000;
+    int seconds = (elapsedMilliseconds % 60000) / 1000;
+
+    // 格式化时间并显示在QLabel上
+    QString runTimeText = QString("%1:%2:%3").arg(hours, 2, 10, QChar('0'))
+                              .arg(minutes, 2, 10, QChar('0'))
+                              .arg(seconds, 2, 10, QChar('0'));
+    ui->runtime->setText(runTimeText); // 假设您的QLabel对象名称为labelRunTime
 }
 

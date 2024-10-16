@@ -525,7 +525,7 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
       <property name="autoFillBackground">
        <bool>true</bool>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,5,2,2,2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="2,5,2,2,0,2">
        <item>
         <widget class="QLabel" name="softVersion">
          <property name="text">
@@ -571,6 +571,13 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
          <property name="text">
           <string>运行时间：</string>
          </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="runtime">
+         <property name="text">
+          <string>00:00:00</string>
+         </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
          </property>
@@ -587,7 +594,7 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
      <x>0</x>
      <y>0</y>
      <width>1110</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
