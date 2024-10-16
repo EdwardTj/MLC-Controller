@@ -73,9 +73,14 @@ void MainWindow::on_openFolder_triggered()
 
     QStringList filepaths = dialog.selectedFiles(); // 获取用户选择的文件路径列表
 
+// 清空QListWidget中的现有项（如果有的话）
+    ui->listWidget->clear();
     // 遍历文件路径列表并输出文件名
     for (const QString &filepath : filepaths)
     {
+        // 使用QFileInfo来获取文件名，并将其添加到QListWidget中
+        QListWidgetItem *item = new QListWidgetItem(QFileInfo(filepath).fileName(), ui->listWidget);
+        //输出文件名
         QFile file(filepath);
         // 注意：对于.dcm文件，通常不应该以文本模式打开，因为它们通常是二进制文件。
         // 但这里我们只是为了演示如何获取文件名，所以不会尝试读取文件内容。
@@ -91,7 +96,7 @@ void MainWindow::on_openFolder_triggered()
     // 如果确实打开了文件，请确保在适当的时候关闭它们，无论是显式地还是通过RAII原则。
 }
 
-
+//退出系统
 void MainWindow::on_clickExit_triggered()
 {
     this->close();
