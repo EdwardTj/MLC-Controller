@@ -27,9 +27,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
+
 
 private slots:
     //打开文件
@@ -47,6 +45,6 @@ private:
     Ui::MainWindow *ui;
     QTimer *runTimer;
     QElapsedTimer elapsedTimer; // 使用QElapsedTimer而不是QTime
-    bool isPressed;  // 用于标记按键状态
+    int clickNum = 0;  // 用于标记按键状态
 };
 #endif // MAINWINDOW_H

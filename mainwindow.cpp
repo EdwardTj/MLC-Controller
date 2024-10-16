@@ -4,7 +4,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow),runTimer(new QTimer(this)), isPressed(false)
+    , ui(new Ui::MainWindow),runTimer(new QTimer(this))
 {
     ui->setupUi(this);
     // 连接QListWidget的itemClicked信号到自定义槽函数
@@ -126,28 +126,14 @@ void MainWindow::updateRunTime()
 //触发信号
 void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
 {
-    qDebug() << "Slot entered";
-    qDebug() << item->text();
-    qDebug() << "Slot exited";
-}
-
-
-
-//解决按压触发两次updateRunTime信号槽的Bug
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    isPressed = true;  // 按下时设置为true
-    QMainWindow::mousePressEvent(event);  // 调用基类处理
-}
-
-void MainWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (isPressed)  // 只有按下时才触发释放事件
-    {
-        isPressed = false;  // 释放时重置标志
-        // 处理release后的逻辑
-        // 在这里可以发射itemClicked信号或者执行自定义逻辑
+    //计数器，点击一次，加一次
+    clickNum = clickNum+1;
+    if(clickNum%2!=0){
+        qDebug() << item->text();
+        QMessageBox::information(this, "Item Clicked", "You clicked on: " + item->text());
     }
-    QMainWindow::mouseReleaseEvent(event);  // 调用基类处理
 }
+
+
+
 
