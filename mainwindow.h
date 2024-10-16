@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include "QFileDialog"
+#include "QMessageBox"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -16,6 +19,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+private slots:
+    void on_openFile_triggered();
+
+    void on_openFolder_triggered();
+
+    void on_clickExit_triggered();
 
 private:
     Ui::MainWindow *ui;
