@@ -11,6 +11,8 @@
 #include <QElapsedTimer>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QPainter>
+#include <QPixmap>
 
 
 QT_BEGIN_NAMESPACE
@@ -28,7 +30,6 @@ public:
     ~MainWindow();
 
 
-
 private slots:
     //打开文件
     void on_openFile_triggered();
@@ -41,10 +42,20 @@ private slots:
 
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
+    //读取多页直准器叶片数据
+    void loaddata(const QString &filePath);
+    //添加Logo
+    void paintLogo(const QString &pclPath);
+
+
 private:
     Ui::MainWindow *ui;
     QTimer *runTimer;
     QElapsedTimer elapsedTimer; // 使用QElapsedTimer而不是QTime
     int clickNum = 0;  // 用于标记按键状态
+
 };
+
+
+
 #endif // MAINWINDOW_H

@@ -8,9 +8,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     // 连接QListWidget的itemClicked信号到自定义槽函数
-      connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
-
-
+    connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
+    paintLogo("D:/zm/dcm/GomROS.png");  // 替换为实际的图片路径
+    ui->picLable->setMinimumSize(100, 100); // 设置 QLabel 的最小尺寸
+    ui->picLable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   // 记录开始时间
     // 启动经过时间计时器
@@ -18,11 +19,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 连接计时器的timeout信号到槽函数
     connect(runTimer, &QTimer::timeout, this, &MainWindow::updateRunTime);
-
     // 启动计时器，例如每秒更新一次
     runTimer->start(1000);
     // 立即调用一次updateRunTime以显示初始时间（可选）
     updateRunTime();
+
+
 }
 
 MainWindow::~MainWindow()
@@ -56,9 +58,23 @@ void MainWindow::on_openFile_triggered()
     QTextStream in(&file);
     QString content = in.readAll();
     file.close(); // 虽然QTextStream的析构函数会关闭文件，但显式关闭也是一个好习惯
-
+    // 清空QListWidget中的现有项（如果有的话）
+    ui->listWidget->clear();
+    // 使用QFileInfo来获取文件名，并将其添加到QListWidget中
+    QListWidgetItem *item = new QListWidgetItem(QFileInfo(filepath).fileName(), ui->listWidget);
     // 输出文件内容到控制台（调试用）
-    qDebug() << content;
+    // qDebug() << content;
+    //设置文件信息 -应该是从名字里面解析
+    ui->planNameValue->setText("C000379681-2");
+    ui->patientNameValue->setText("liu ai qin");
+    ui->recordIndexValue->setText("C000379681");
+    ui->treatModeValue->setText("Static");
+    ui->machineIndexValue->setText("XH600D");
+    ui->machineAngleValue->setText("0.0");
+    ui->MLCAngleValue->setText("0.0");
+
+    QString filePath = "D:/zm/dcm/datainof.csv"; // 替换为你的 CSV 文件路径
+    loaddata(filePath); //读取文件
 }
 
 
@@ -84,12 +100,12 @@ void MainWindow::on_openFolder_triggered()
         // 使用QFileInfo来获取文件名，并将其添加到QListWidget中
         QListWidgetItem *item = new QListWidgetItem(QFileInfo(filepath).fileName(), ui->listWidget);
         //输出文件名
-        QFile file(filepath);
+        // QFile file(filepath);
         // 注意：对于.dcm文件，通常不应该以文本模式打开，因为它们通常是二进制文件。
         // 但这里我们只是为了演示如何获取文件名，所以不会尝试读取文件内容。
 
         // 输出文件名到控制台
-        qDebug() << QFileInfo(filepath).fileName();
+        // qDebug() << QFileInfo(filepath).fileName();
 
         // 如果您确实需要读取.dcm文件的内容，您应该使用适当的方法来处理二进制数据。
         // 例如，您可以使用QDataStream或QFile::read()来读取二进制数据。
@@ -134,6 +150,51 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     }
 }
 
+
+//加载数据
+void MainWindow::loaddata(const QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream in(&file);
+    QStringList headers = in.readLine().split(',');
+    ui->tableWidget->setColumnCount(headers.size());
+     ui->tableWidget->setHorizontalHeaderLabels(headers);
+
+    int row = 0;
+    while (!in.atEnd()) {
+        QStringList lineData = in.readLine().split(',');
+         ui->tableWidget->insertRow(row);
+        for (int column = 0; column < lineData.size(); ++column) {
+            QTableWidgetItem *item = new QTableWidgetItem(lineData[column].trimmed());
+            item->setTextAlignment(Qt::AlignCenter);  // 数据居中
+             ui->tableWidget->setItem(row, column, item);
+        }
+        ui->tableWidget->setRowHeight(row, 20);  // 设置每行高度为30像素
+        row++;
+    }
+
+    // 设置列宽自动适应
+    for (int i = 0; i < headers.size(); ++i) {
+         ui->tableWidget->horizontalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);  // 列宽度自动伸展
+    }
+
+    ui->tableWidget->verticalHeader()->setVisible(false);  // 隐藏行号
+
+}
+
+
+//添加logo
+void MainWindow::paintLogo(const QString &pclPath){
+    QImage image(pclPath);  // 加载图片为QImage
+    // 调整图片大小，保持纵横比
+    QSize labelSize = ui->label->size();
+    QImage scaledImage = image.scaled(labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->picLable->setPixmap(QPixmap::fromImage(scaledImage));  // 将调整后的QImage转换为QPixmap并设置到QLabel
+    ui->picLable->setScaledContents(true);  // 使图片适应QLabel大小
+}
 
 
 

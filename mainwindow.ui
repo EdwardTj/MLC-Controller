@@ -350,10 +350,14 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8" stretch="10,1">
           <item>
-           <widget class="QWidget" name="showPicWidget" native="true"/>
+           <widget class="QWidget" name="showPicWidget" native="true">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+           </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0">
             <item>
              <widget class="QWidget" name="runInfoWidge" native="true">
               <property name="styleSheet">
@@ -361,7 +365,7 @@
 border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释中的厚度描述与实际代码不符，已更正） */  \nbox-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 添加阴影效果 */  \nbackground-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的白色 */
 }</string>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,6">
+              <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,4,14">
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
@@ -438,11 +442,18 @@ border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释�
                  </item>
                 </layout>
                </item>
+               <item>
+                <widget class="QLabel" name="picLable">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </widget>
             </item>
             <item>
-             <widget class="QWidget" name="NullWidget" native="true">
+             <widget class="QWidget" name="picWidget" native="true">
               <property name="font">
                <font>
                 <bold>true</bold>
@@ -487,31 +498,6 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <column>
-             <property name="text">
-              <string>LN</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>LA</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>LB</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>LAB</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>LY</string>
-             </property>
-            </column>
            </widget>
           </item>
          </layout>
@@ -594,7 +580,7 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
      <x>0</x>
      <y>0</y>
      <width>1110</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
