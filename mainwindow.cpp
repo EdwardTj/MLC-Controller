@@ -12,17 +12,17 @@ MainWindow::MainWindow(QWidget *parent)
     paintLogo("D:/zm/dcm/GomROS.png");  // 替换为实际的图片路径
     ui->picLable->setMinimumSize(100, 100); // 设置 QLabel 的最小尺寸
     ui->picLable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
+    setRunStatus(1);
   // 记录开始时间
     // 启动经过时间计时器
     elapsedTimer.start(); // 开始计时
-
     // 连接计时器的timeout信号到槽函数
     connect(runTimer, &QTimer::timeout, this, &MainWindow::updateRunTime);
     // 启动计时器，例如每秒更新一次
     runTimer->start(1000);
     // 立即调用一次updateRunTime以显示初始时间（可选）
     updateRunTime();
+    setRunStatus(2);
 
 
 }
@@ -188,13 +188,68 @@ void MainWindow::loaddata(const QString &filePath)
 
 //添加logo
 void MainWindow::paintLogo(const QString &pclPath){
-    QImage image(pclPath);  // 加载图片为QImage
-    // 调整图片大小，保持纵横比
-    QSize labelSize = ui->label->size();
-    QImage scaledImage = image.scaled(labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    ui->picLable->setPixmap(QPixmap::fromImage(scaledImage));  // 将调整后的QImage转换为QPixmap并设置到QLabel
-    ui->picLable->setScaledContents(true);  // 使图片适应QLabel大小
+    // QImage image(pclPath);  // 加载图片为QImage
+    // // 调整图片大小，保持纵横比
+    // QSize labelSize = ui->label->size();
+    // QImage scaledImage = image.scaled(labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    // ui->picLable->setPixmap(QPixmap::fromImage(scaledImage));  // 将调整后的QImage转换为QPixmap并设置到QLabel
+    // ui->picLable->setScaledContents(true);  // 使图片适应QLabel大小
+    // drawMLCView();
+}
+//设置设备运行状态
+void  MainWindow::setRunStatus(int flag){
+    switch(flag){
+    case 0:
+        ui->statusLabel_1->setText("");
+        ui->statusLabel_2->setText("");
+        ui->statusLabel_3->setText("");
+        ui->statusLabel_4->setText("");
+        break;
+    case 1:
+        ui->statusLabel_1->setText("√");
+        ui->statusLabel_2->setText("");
+        ui->statusLabel_3->setText("");
+        ui->statusLabel_4->setText("");
+        break;
+    case 2:
+        ui->statusLabel_1->setText("");
+        ui->statusLabel_2->setText("√");
+        ui->statusLabel_3->setText("");
+        ui->statusLabel_4->setText("");
+        break;
+    case 3:
+        ui->statusLabel_1->setText("");
+        ui->statusLabel_2->setText("");
+        ui->statusLabel_3->setText("√");
+        ui->statusLabel_4->setText("");
+        break;
+    case 4:
+        ui->statusLabel_1->setText("");
+        ui->statusLabel_2->setText("");
+        ui->statusLabel_3->setText("");
+        ui->statusLabel_4->setText("√");
+        break;
+    default:
+        qDebug()<<"error";
+    }
 }
 
 
+//绘制主画面
+void MainWindow::drawMLCView(){
+    // 创建 QLabel 并设置属性
+    // QLabel *imageLabel = new QLabel(ui->showPicWidget);
+    // imageLabel->setObjectName("imageLabel");
+    // imageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // imageLabel->setAlignment(Qt::AlignCenter); // 设置居中对齐
+
+    // // 创建布局并将 QLabel 添加到布局中
+    // QVBoxLayout *layout = new QVBoxLayout(ui->showPicWidget);
+    // layout->addWidget(imageLabel);
+    // ui->showPicWidget->setLayout(layout); // 设置 showPicWidget 的布局
+
+    // // 加载高清图片
+    // QPixmap pixmap("D:/zm/dcm/bigView.png"); // 替换为你的高清图片路径
+    // imageLabel->setPixmap(pixmap.scaled(ui->showPicWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+}
 

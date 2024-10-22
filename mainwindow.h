@@ -53,6 +53,9 @@ private:
     QTimer *runTimer;
     QElapsedTimer elapsedTimer; // 使用QElapsedTimer而不是QTime
     int clickNum = 0;  // 用于标记按键状态
+    void setRunStatus(int flag);//设置设备运行状态
+protected:
+    void drawMLCView();
 
 };
 

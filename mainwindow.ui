@@ -335,6 +335,18 @@
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="styleSheet">
+                <string notr="true">image: url(:/pic/D:/zm/dcm/secondView.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
@@ -354,6 +366,24 @@
             <property name="styleSheet">
              <string notr="true"/>
             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="imageLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">image: url(:/pic/D:/zm/dcm/bigView.png);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
@@ -369,9 +399,9 @@ border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释�
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
                  <item>
-                  <widget class="QLabel" name="label_5">
+                  <widget class="QLabel" name="statusLabel_1">
                    <property name="text">
-                    <string>√</string>
+                    <string/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -379,9 +409,9 @@ border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释�
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_6">
+                  <widget class="QLabel" name="statusLabel_2">
                    <property name="text">
-                    <string>√</string>
+                    <string/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -389,9 +419,9 @@ border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释�
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_7">
+                  <widget class="QLabel" name="statusLabel_3">
                    <property name="text">
-                    <string>√</string>
+                    <string/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -399,9 +429,9 @@ border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释�
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_8">
+                  <widget class="QLabel" name="statusLabel_4">
                    <property name="text">
-                    <string>√</string>
+                    <string/>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -444,6 +474,9 @@ border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释�
                </item>
                <item>
                 <widget class="QLabel" name="picLable">
+                 <property name="styleSheet">
+                  <string notr="true">image: url(:/pic/D:/zm/dcm/GomROS.png);</string>
+                 </property>
                  <property name="text">
                   <string/>
                  </property>
