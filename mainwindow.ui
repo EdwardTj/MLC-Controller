@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>多页准直器MLC控制系统</string>
+   <string>多叶准直器MLC控制系统软件V1.0</string>
   </property>
   <widget class="QWidget" name="HorizontalLayout">
    <layout class="QVBoxLayout" name="verticalLayout_5" stretch="30,1">
@@ -337,9 +337,9 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_10">
              <item>
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="secondViewLabel">
                <property name="styleSheet">
-                <string notr="true">image: url(:/pic/D:/zm/dcm/secondView.png);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string/>
@@ -376,7 +376,7 @@
                 </sizepolicy>
                </property>
                <property name="styleSheet">
-                <string notr="true">image: url(:/pic/D:/zm/dcm/bigView.png);</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string/>
@@ -445,28 +445,28 @@ border: 0.5px solid gray; /* 灰色边框，厚度为1像素（注意原注释�
                  <item>
                   <widget class="QLabel" name="label">
                    <property name="text">
-                    <string>启动设备初始化</string>
+                    <string>连接设备</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_2">
                    <property name="text">
-                    <string>设备初始化完成</string>
+                    <string>初始化设备</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_3">
                    <property name="text">
-                    <string>启动设备运行</string>
+                    <string>启动设备</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_4">
                    <property name="text">
-                    <string>设备运行完成</string>
+                    <string>设备运行</string>
                    </property>
                   </widget>
                  </item>
@@ -548,7 +548,7 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
        <item>
         <widget class="QLabel" name="softVersion">
          <property name="text">
-          <string>多页准直器控制系统 Standard 2014</string>
+          <string>多叶准直器MLC控制系统软件V1.0</string>
          </property>
         </widget>
        </item>
@@ -613,7 +613,7 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
      <x>0</x>
      <y>0</y>
      <width>1110</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -625,23 +625,24 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
     <addaction name="separator"/>
     <addaction name="clickExit"/>
    </widget>
-   <widget class="QMenu" name="viewMenu">
-    <property name="title">
-     <string>视图</string>
-    </property>
-   </widget>
    <widget class="QMenu" name="controllerMenu">
     <property name="title">
      <string>控制</string>
     </property>
+    <addaction name="actionsss"/>
+    <addaction name="action"/>
+    <addaction name="actionstop"/>
+    <addaction name="actionre"/>
+    <addaction name="actionss"/>
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="title">
      <string>帮助</string>
     </property>
+    <addaction name="actiongu"/>
+    <addaction name="actionban"/>
    </widget>
    <addaction name="fileMenu"/>
-   <addaction name="viewMenu"/>
    <addaction name="controllerMenu"/>
    <addaction name="helpMenu"/>
   </widget>
@@ -658,6 +659,41 @@ background-color: rgba(255, 255, 255, 0.2); /* 背景色为带有20%透明度的
   <action name="clickExit">
    <property name="text">
     <string>退出</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>启动</string>
+   </property>
+  </action>
+  <action name="actionstop">
+   <property name="text">
+    <string>停止</string>
+   </property>
+  </action>
+  <action name="actionre">
+   <property name="text">
+    <string>初始化</string>
+   </property>
+  </action>
+  <action name="actionsss">
+   <property name="text">
+    <string>连接设备</string>
+   </property>
+  </action>
+  <action name="actionss">
+   <property name="text">
+    <string>断开连接</string>
+   </property>
+  </action>
+  <action name="actionban">
+   <property name="text">
+    <string>GomROS</string>
+   </property>
+  </action>
+  <action name="actiongu">
+   <property name="text">
+    <string>关于软件</string>
    </property>
   </action>
  </widget>

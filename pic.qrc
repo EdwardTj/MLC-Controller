@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/pic">
+        <file>D:/zm/dcm/GomROS.png</file>
+        <file>D:/zm/dcm/bigView.png</file>
+        <file>D:/zm/dcm/secondView.png</file>
+        <file>D:/zm/dcm/logo.png</file>
+    </qresource>
+</RCC>

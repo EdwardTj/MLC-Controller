@@ -13,8 +13,11 @@
 #include <QListWidgetItem>
 #include <QPainter>
 #include <QPixmap>
-
-
+#include <QDesktopServices>
+#include <QUrl>
+#include <QStringList>
+#include <QString>
+#include "loginwidget.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -48,14 +51,38 @@ private slots:
     void paintLogo(const QString &pclPath);
 
 
+    void on_actiongu_triggered();
+
+    void on_actionban_triggered();
+
+    void on_actionsss_triggered();
+
+    void on_actionre_triggered();
+
+    void on_action_triggered();
+
+    void on_actionstop_triggered();
+
+    void on_actionss_triggered();
+
+    //处理文件名字
+    void split_file_name(const QString &filename);
+
+    //加载数据和视野
+    void get_data_and_view(const QString &filepath);
+
+
 private:
     Ui::MainWindow *ui;
     QTimer *runTimer;
     QElapsedTimer elapsedTimer; // 使用QElapsedTimer而不是QTime
+        LoginWidget *loginWidget; // 登录窗口指针
     int clickNum = 0;  // 用于标记按键状态
     void setRunStatus(int flag);//设置设备运行状态
 protected:
     void drawMLCView();
+private slots:
+    void showLoginDialog(); // 显示登录对话框
 
 };
 

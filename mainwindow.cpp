@@ -7,12 +7,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow),runTimer(new QTimer(this))
 {
     ui->setupUi(this);
+    // 在构造函数中隐藏主窗口
+    this->hide();  // 隐藏窗口
+    this->setVisible(false);  // 设置窗口不可见
+    // QTimer::singleShot(0, this, &MainWindow::showLoginDialog);  // 立即调用 showLoginDialog()
+    // showLoginDialog();  // 显示登录对话框
+
     // 连接QListWidget的itemClicked信号到自定义槽函数
     connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
     paintLogo("D:/zm/dcm/GomROS.png");  // 替换为实际的图片路径
     ui->picLable->setMinimumSize(100, 100); // 设置 QLabel 的最小尺寸
     ui->picLable->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    setRunStatus(1);
   // 记录开始时间
     // 启动经过时间计时器
     elapsedTimer.start(); // 开始计时
@@ -22,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     runTimer->start(1000);
     // 立即调用一次updateRunTime以显示初始时间（可选）
     updateRunTime();
-    setRunStatus(2);
 
 
 }
@@ -58,23 +62,21 @@ void MainWindow::on_openFile_triggered()
     QTextStream in(&file);
     QString content = in.readAll();
     file.close(); // 虽然QTextStream的析构函数会关闭文件，但显式关闭也是一个好习惯
+
+
+
     // 清空QListWidget中的现有项（如果有的话）
     ui->listWidget->clear();
     // 使用QFileInfo来获取文件名，并将其添加到QListWidget中
-    QListWidgetItem *item = new QListWidgetItem(QFileInfo(filepath).fileName(), ui->listWidget);
+    QString fileName = QFileInfo(filepath).fileName();
+    QListWidgetItem *item = new QListWidgetItem(fileName, ui->listWidget);
     // 输出文件内容到控制台（调试用）
     // qDebug() << content;
-    //设置文件信息 -应该是从名字里面解析
-    ui->planNameValue->setText("C000379681-2");
-    ui->patientNameValue->setText("liu ai qin");
-    ui->recordIndexValue->setText("C000379681");
-    ui->treatModeValue->setText("Static");
-    ui->machineIndexValue->setText("XH600D");
-    ui->machineAngleValue->setText("0.0");
-    ui->MLCAngleValue->setText("0.0");
-
+    split_file_name(fileName);
+    //加载数据
     QString filePath = "D:/zm/dcm/datainof.csv"; // 替换为你的 CSV 文件路径
-    loaddata(filePath); //读取文件
+    get_data_and_view(filePath);
+
 }
 
 
@@ -111,8 +113,7 @@ void MainWindow::on_openFolder_triggered()
         // 例如，您可以使用QDataStream或QFile::read()来读取二进制数据。
     }
 
-    // 注意：由于我们没有打开文件来读取内容，所以不需要关闭它们。
-    // 如果确实打开了文件，请确保在适当的时候关闭它们，无论是显式地还是通过RAII原则。
+
 }
 
 //退出系统
@@ -146,7 +147,24 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     clickNum = clickNum+1;
     if(clickNum%2!=0){
         qDebug() << item->text();
-        QMessageBox::information(this, "Item Clicked", "You clicked on: " + item->text());
+        QString itemText = item->text(); // 获取项的文本
+        QMessageBox::StandardButton reply;
+        // 显示带有确定和取消的消息框
+        reply = QMessageBox::question(this, "提示", "确定要打开: " + itemText + " 吗？",
+                                      QMessageBox::Yes | QMessageBox::No);
+
+        // 根据用户选择的按钮进行相应处理
+        if (reply == QMessageBox::Yes) {
+            // 用户点击了“确定”
+            qDebug("用户选择了打开: %s", qPrintable(itemText));
+            split_file_name(item->text());
+            QString filePath = "D:/zm/dcm/datainof.csv"; // 替换为你的 CSV 文件路径
+            get_data_and_view(filePath);
+            // 在这里添加打开网站或文件的代码
+        } else {
+            // 用户点击了“取消”
+            qDebug("用户选择了取消");
+        }
     }
 }
 
@@ -253,3 +271,129 @@ void MainWindow::drawMLCView(){
     // imageLabel->setPixmap(pixmap.scaled(ui->showPicWidget->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
+
+void MainWindow::on_actiongu_triggered()
+{
+    QMessageBox::information(this, "帮助", "\n\n\n\n        关于多叶准直器MLC控制系统软件V1.0,本系统目的为了解析dcm文件，并将dcm文件可视化，以实现对多页准直器光栅精准控制的目的。\n\n"
+                                           "该系统版权隶属山东亚历山大智能科技有限公司，详情请联系管理员。\n\n\n"
+                                           "关于山东亚历山大智能科技有限公司：\n\n"
+                                           "地址：山东省济南市历下区经十路华特广场B410\n"
+                                           "服务热线：13065039691\n"
+                                           "工作时间：周一至周日9:00-22:00\n"
+                                           "邮箱：ale-service@alesmart.com\n\n\n"
+                                           "备案号：鲁ICP备17053761号-1\n\n");
+}
+
+
+void MainWindow::on_actionban_triggered()
+{
+    // 打开外部网站
+    QDesktopServices::openUrl(QUrl("https://www.alesmart.com/"));
+}
+
+
+void MainWindow::on_actionsss_triggered()
+{
+    setRunStatus(1);
+    QMessageBox::information(this,"提示","设备连接成功");
+
+}
+
+
+void MainWindow::on_actionre_triggered()
+{
+    setRunStatus(2);
+    QMessageBox::information(this,"提示","设备初始化成功");
+}
+
+
+void MainWindow::on_action_triggered()
+{
+    setRunStatus(3);
+    QMessageBox::information(this,"提示","设备启动成功");
+    setRunStatus(4);
+}
+
+
+void MainWindow::on_actionstop_triggered()
+{
+    setRunStatus(0);
+    QMessageBox::warning(this,"提示","停止设备!");
+}
+
+
+void MainWindow::on_actionss_triggered()
+{
+    setRunStatus(0);
+    QMessageBox::warning(this,"提示","断开设备连接!");
+}
+
+
+//处理文件名字
+void MainWindow::split_file_name(const QString &filename){
+    QStringList parts = filename.split('-');
+
+    if (parts.size() == 6) {
+        QString part1 = parts[0];                     // C0001-1
+        QString part2 = parts[1];                      // liuaiqin
+        QString part3 = parts[2];                      // C000379681
+        QString part4 = parts[3];                      // Static
+        QString part5 = parts[4];                      // XH600D
+
+        // 将 part2 进行空格分隔处理
+        QString formattedPart2 = part2.mid(0, 3) + " " + part2.mid(3); // liu ai qin
+
+        // 输出结果
+        qDebug() << part1;
+        qDebug() << formattedPart2;
+        qDebug() << part3;
+        qDebug() << part4;
+        qDebug() << part5;
+        //设置文件信息 -应该是从名字里面解析
+        ui->planNameValue->setText(part1);
+        ui->patientNameValue->setText(formattedPart2);
+        ui->recordIndexValue->setText(part3);
+        ui->treatModeValue->setText(part4);
+        ui->machineIndexValue->setText(part5);
+        ui->machineAngleValue->setText("0.0");
+        ui->MLCAngleValue->setText("0.0");
+    } else {
+        qDebug() << "分割后部分数量不匹配！";
+    }
+
+
+}
+//加载数据和视野
+void MainWindow::get_data_and_view(const QString &filepath){
+    loaddata(filepath); //读取文件
+
+    QPixmap pixmap(":/pic/D:/zm/dcm/secondView.png");  // 从资源中加载图片
+    ui->secondViewLabel->setPixmap(pixmap);  // 设置图片到 QLabel
+    ui->secondViewLabel->setScaledContents(true);  // 使图片适应 QLabel 的大小
+    ui->secondViewLabel->resize(pixmap.size());  // 根据图片大小调整 QLabel 大小
+    ui->secondViewLabel->show();  // 显示 QLabel
+    QPixmap pixmap2(":/pic/D:/zm/dcm/bigView.png");  // 从资源中加载图片
+    ui->imageLabel->setPixmap(pixmap2);  // 设置图片到 QLabel
+    ui->imageLabel->setScaledContents(true);  // 使图片适应 QLabel 的大小
+    ui->imageLabel->resize(pixmap2.size());  // 根据图片大小调整 QLabel 大小
+    ui->imageLabel->show();  // 显示 QLabel
+}
+//登录界面
+void MainWindow::showLoginDialog(){
+    LoginWidget *loginWidget = new LoginWidget(this);  // 创建 LoginWidget 实例
+
+    // 连接登录成功信号
+    connect(loginWidget, &LoginWidget::loginSuccessful, this, &MainWindow::show);
+
+    // 连接关闭信号，确保关闭时删除登录窗口
+    connect(loginWidget, &QObject::destroyed, this, &MainWindow::show);
+
+    loginWidget->setAttribute(Qt::WA_DeleteOnClose); // 关闭时自动删除
+    loginWidget->show();  // 显示登录窗口
+
+    // 当登录窗口关闭时，显示主窗口
+    connect(loginWidget, &LoginWidget::loginSuccessful, this, [&]() {
+        this->setVisible(true);  // 登录成功后显示主窗口
+        loginWidget->close();  // 关闭登录窗口
+    });
+}
